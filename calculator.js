@@ -3,26 +3,27 @@
    - Fórmula de anualidad (cuota fija): Cuota = Saldo * i / (1-(1+i)^-n)
    - Tasas según aplique IVA (configurables)
    - Rangos de seguro configurables
-   - Persistencia en localStorage
+   - Fuente de verdad central: config.json (repo/GitHub)
+     + config local editable en localStorage (tiene prioridad)
    ============================================================== */
 
-// ---------- ESTADO POR DEFECTO ----------
-const DEFAULTS = {
+// ---------- FALLBACK (si no se logra cargar config.json) ----------
+const FALLBACK = {
   tasas: {
-    noIva: 2.18,      // % mensual, sin IVA
-    siIva: 2.5942,    // % mensual, con IVA
+    noIva: 2.18,
+    siIva: 2.5942,
   },
-  // Rangos de seguro: {desde, hasta, valor} en COP
   rangosSeguro: [
     { desde: 800000, hasta: 1200000, valor: 16000 },
     { desde: 1200000, hasta: 1900000, valor: 22000 },
-    { desde: 2000000, hasta: null, valor: 38000 }, // null = sin tope superior
+    { desde: 2000000, hasta: null, valor: 38000 },
   ],
 };
 
 const STORAGE_KEY = 'claro-calculadora-config-v1';
+const CONFIG_URL = 'config.json';
 
-let config = loadConfig();
+let config = JSON.parse(JSON.stringify(FALLBACK));
 let estado = {
   valorEquipo: null,
   aplicaIva: 'si',   // 'si' por defecto (el más común)
@@ -30,24 +31,43 @@ let estado = {
   meses: 12,
 };
 
-// ---------- PERSISTENCIA ----------
-function loadConfig() {
+// ---------- CARGA DE CONFIG ----------
+// 1) Lee config.json del repo (fuente central que tú controlas desde GitHub)
+// 2) Si hay config local guardada (localStorage), esta tiene prioridad
+function descargarConfigRemoto() {
+  return fetch(CONFIG_URL, { cache: 'no-store' })
+    .then(r => {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    })
+    .catch(e => {
+      console.warn('No se pudo cargar config.json (' + e.message + '). Usando fallback.');
+      return JSON.parse(JSON.stringify(FALLBACK));
+    });
+}
+
+// Mezcla configs tolerando campos faltantes
+function mezclarConfig(remoto) {
+  return {
+    tasas: { ...FALLBACK.tasas, ...(remoto.tasas || {}) },
+    rangosSeguro: remoto.rangosSeguro && remoto.rangosSeguro.length
+      ? remoto.rangosSeguro
+      : FALLBACK.rangosSeguro,
+  };
+}
+
+// ---------- PERSISTENCIA LOCAL (config editable del asesor) ----------
+function cargarConfigLocal() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) {
       const parsed = JSON.parse(raw);
-      // Mezcla con defaults para tolerar campos faltantes
-      return {
-        tasas: { ...DEFAULTS.tasas, ...(parsed.tasas || {}) },
-        rangosSeguro: parsed.rangosSeguro && parsed.rangosSeguro.length
-          ? parsed.rangosSeguro
-          : DEFAULTS.rangosSeguro,
-      };
+      return mezclarConfig(parsed);
     }
   } catch (e) {
     console.warn('No se pudo cargar la configuración guardada:', e);
   }
-  return JSON.parse(JSON.stringify(DEFAULTS));
+  return null;
 }
 
 function saveConfig() {
@@ -278,4 +298,18 @@ document.getElementById('btn-save').addEventListener('click', () => {
 });
 
 // ---------- INIT ----------
-cargarConfigEnUI();
+// Carga la config central (config.json del repo) y la muestra en la UI.
+// Si el asesor tiene una config local guardada, esta tiene prioridad.
+async function iniciarApp() {
+  try {
+    const remoto = await descargarConfigRemoto();
+    const local = cargarConfigLocal();
+    config = local || mezclarConfig(remoto);
+  } catch (e) {
+    config = JSON.parse(JSON.stringify(FALLBACK));
+  }
+  cargarConfigEnUI();
+  recalcular();
+}
+
+iniciarApp();

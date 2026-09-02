@@ -1,0 +1,11 @@
+{
+  "tasas": {
+    "noIva": 2.18,
+    "siIva": 2.5942
+  },
+  "rangosSeguro": [
+    { "desde": 800000, "hasta": 1200000, "valor": 16000 },
+    { "desde": 1200000, "hasta": 1900000, "valor": 22000 },
+    { "desde": 2000000, "hasta": null, "valor": 38000 }
+  ]
+}

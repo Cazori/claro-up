@@ -1,0 +1,297 @@
+:root {
+  --claro-red: #e30613;
+  --claro-red-dark: #b00610;
+  --claro-magenta: #d5007f;
+  --bg: #f7f7f7;
+  --card-bg: #ffffff;
+  --border: #e0e0e0;
+  --text: #1a1a1a;
+  --text-muted: #5c5c5c;
+  --green: #0f9d58;
+  --danger: #d93025;
+  --radius: 12px;
+  --shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- HEADER ---------- */
+.app-header {
+  background: linear-gradient(135deg, var(--claro-red) 0%, var(--claro-red-dark) 100%);
+  color: #fff;
+  padding: 28px 20px;
+  text-align: center;
+}
+
+.app-header h1 {
+  font-size: 1.7rem;
+  font-weight: 800;
+}
+
+.app-header h1 span {
+  display: block;
+  font-size: 1rem;
+  font-weight: 500;
+  opacity: 0.85;
+  margin-top: 4px;
+}
+
+.subtitle { margin-top: 8px; font-size: 0.95rem; opacity: 0.9; }
+
+/* ---------- TABS ---------- */
+.tabs {
+  display: flex;
+  gap: 6px;
+  padding: 14px 16px 0;
+  max-width: 760px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: 1px solid var(--border);
+  border-bottom: none;
+  background: #f3ecec;
+  color: var(--text-muted);
+  border-radius: 10px 10px 0 0;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.tab-btn.active {
+  background: var(--card-bg);
+  color: var(--claro-red);
+  border-color: var(--border);
+}
+
+.tab-panel { display: none; }
+
+.tab-panel.active {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 16px;
+  width: 100%;
+  flex: 1;
+}
+
+/* ---------- CARDS ---------- */
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px;
+  box-shadow: var(--shadow);
+}
+
+.card h2 {
+  font-size: 1.15rem;
+  margin-bottom: 16px;
+  color: var(--claro-red-dark);
+}
+
+/* ---------- FIELDS ---------- */
+.field-group { margin-bottom: 20px; }
+
+.field-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  font-size: 0.92rem;
+}
+
+.field-group input[type="text"],
+.field-group input[type="number"] {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 1.1rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.field-group input:focus {
+  border-color: var(--claro-red);
+  box-shadow: 0 0 0 3px rgba(227, 6, 19, 0.12);
+}
+
+.hint { font-size: 0.8rem; color: var(--text-muted); margin-top: 6px; }
+
+/* ---------- TOGGLE IVA ---------- */
+.toggle-row {
+  display: flex;
+  gap: 10px;
+}
+
+.toggle-btn {
+  padding: 10px 22px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #f5f7fa;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.toggle-btn.active {
+  background: var(--claro-red);
+  border-color: var(--claro-red);
+  color: #fff;
+}
+
+/* ---------- PLAZO ---------- */
+.plazo-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+}
+
+.plazo-btn {
+  padding: 14px 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #f5f7fa;
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.plazo-btn.active {
+  background: var(--claro-magenta);
+  border-color: var(--claro-magenta);
+  color: #fff;
+  transform: scale(1.03);
+}
+
+/* ---------- RESULTADO ---------- */
+.resultado { border-left: 5px solid var(--claro-red); }
+
+.result-line {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--border);
+}
+
+.result-label { color: var(--text-muted); }
+.result-value { font-weight: 600; }
+
+.result-value.seguro {
+  color: var(--claro-magenta);
+  font-weight: 800;
+}
+
+.result-divider { height: 14px; }
+
+.result-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--claro-red);
+  color: #fff;
+  padding: 16px 18px;
+  border-radius: 8px;
+}
+
+.total-label { font-weight: 800; font-size: 0.9rem; }
+.total-sub { display: block; font-size: 0.85rem; opacity: 0.85; margin-top: 2px; }
+.total-value { font-size: 1.8rem; font-weight: 800; }
+
+.hidden { display: none !important; }
+
+/* ---------- SEGURO TABLE ---------- */
+.seguro-table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+
+.seguro-table th {
+  text-align: left;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  padding: 8px 6px;
+  border-bottom: 2px solid var(--border);
+}
+
+.seguro-table td { padding: 8px 6px; border-bottom: 1px solid var(--border); }
+
+.seguro-table input {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+
+.btn-remove {
+  background: none;
+  border: none;
+  color: var(--danger);
+  font-size: 1.3rem;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+/* ---------- BUTTONS ---------- */
+.action-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.btn {
+  padding: 11px 20px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-primary { background: var(--claro-red); color: #fff; }
+.btn-primary:hover { background: var(--claro-red-dark); }
+
+.btn-secondary { background: #fdecec; color: var(--claro-red-dark); }
+.btn-secondary:hover { background: #fad8d8; }
+
+.save-status {
+  margin-top: 12px;
+  font-weight: 600;
+}
+
+.save-status.success { color: var(--green); }
+.save-status.error { color: var(--danger); }
+
+/* ---------- FOOTER ---------- */
+.app-footer {
+  text-align: center;
+  padding: 18px;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 520px) {
+  .plazo-row { grid-template-columns: repeat(5, 1fr); gap: 6px; }
+  .plazo-btn { padding: 11px 0; font-size: 1rem; }
+  .result-total { flex-direction: column; gap: 6px; text-align: center; }
+  .action-row { flex-direction: column; }
+}

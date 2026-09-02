@@ -1,0 +1,6 @@
+# Skill registry local (no debe publicarse)
+.atl/
+
+# Sistema
+Thumbs.db
+.DS_Store

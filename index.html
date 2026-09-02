@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de Cuotas Claro</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="app-header">
+    <h1>Calculadora de Cuotas <span>con seguro Claro up</span></h1>
+    <p class="subtitle">Ingresa el valor del equipo y obtén al instante la cuota mensual con el seguro.</p>
+  </header>
+
+  <nav class="tabs" role="tablist">
+    <button class="tab-btn active" data-tab="calculator" role="tab" aria-selected="true">Calculadora</button>
+    <button class="tab-btn" data-tab="settings" role="tab" aria-selected="false">Configuración</button>
+  </nav>
+
+  <!-- ============ CALCULADORA ============ -->
+  <main id="tab-calculator" class="tab-panel active">
+    <section class="card">
+      <div class="field-group">
+        <label for="valorEquipo">Valor del equipo (con IVA) — COP</label>
+        <input type="text" id="valorEquipo" inputmode="numeric" placeholder="Ej: 2.617.900" autocomplete="off">
+      </div>
+
+      <div class="field-group toggle-group">
+        <label>¿El equipo aplica IVA?</label>
+        <div class="toggle-row">
+          <button type="button" class="toggle-btn active" data-iva="si">Aplica IVA</button>
+          <button type="button" class="toggle-btn" data-iva="no">No aplica IVA</button>
+        </div>
+        <p class="hint">Por defecto está en "Aplica IVA", que es el caso más común. La tasa de financiación depende de esta selección.</p>
+      </div>
+
+      <div class="field-group">
+        <label for="pagoInicial">Pago inicial (opcional) — COP</label>
+        <input type="text" id="pagoInicial" inputmode="numeric" placeholder="Ej: 0" autocomplete="off">
+        <p class="hint">Si el cliente paga una parte de contado, la cuota se calcula sobre el saldo a diferir.</p>
+      </div>
+
+      <div class="field-group">
+        <label>Plazo (meses)</label>
+        <div class="plazo-row">
+          <button class="plazo-btn" data-meses="6">6</button>
+          <button class="plazo-btn" data-meses="12">12</button>
+          <button class="plazo-btn" data-meses="18">18</button>
+          <button class="plazo-btn" data-meses="24">24</button>
+          <button class="plazo-btn" data-meses="36">36</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="resultado" class="card resultado hidden">
+      <div class="result-line">
+        <span class="result-label">Saldo a diferir</span>
+        <span class="result-value" id="res-saldo">—</span>
+      </div>
+      <div class="result-line">
+        <span class="result-label">Cuota del equipo (sin seguro)</span>
+        <span class="result-value" id="res-cuota">—</span>
+      </div>
+      <div class="result-line">
+        <span class="result-label">Seguro Claro up (mensual)</span>
+        <span class="result-value seguro" id="res-seguro">—</span>
+      </div>
+      <div class="result-divider"></div>
+      <div class="result-total">
+        <div>
+          <span class="total-label">TOTAL MENSUAL</span>
+          <span class="total-sub" id="res-plazo">—</span>
+        </div>
+        <span class="total-value" id="res-total">—</span>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ CONFIGURACION ============ -->
+  <main id="tab-settings" class="tab-panel">
+    <section class="card">
+      <h2>Tasas de financiación</h2>
+      <div class="field-group">
+        <label for="tasaNoIva">Tasa mensual — sin IVA (%)</label>
+        <input type="number" id="tasaNoIva" step="any" min="0" value="2.18">
+      </div>
+      <div class="field-group">
+        <label for="tasaSiIva">Tasa mensual — con IVA (%)</label>
+        <input type="number" id="tasaSiIva" step="any" min="0" value="2.5942">
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Rangos del seguro Claro up</h2>
+      <p class="hint">Cada rango define un valor de seguro mensual según el precio del equipo (con IVA). Ajusta los valores según sea necesario.</p>
+      <table class="seguro-table">
+        <thead>
+          <tr>
+            <th>Desde (COP)</th>
+            <th>Hasta (COP)</th>
+            <th>Seguro mensual (COP)</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="seguro-tbody"></tbody>
+      </table>
+      <div class="action-row">
+        <button id="btn-add-range" class="btn btn-secondary">+ Añadir rango</button>
+        <button id="btn-save" class="btn btn-primary">Guardar configuración</button>
+      </div>
+      <p id="save-status" class="save-status"></p>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <p>Herramienta interna de apoyo para asesores del call center. Los valores de cuota se calculan con la fórmula de anualidad utilizada en la lista de precios TEC.</p>
+  </footer>
+
+  <script src="calculator.js"></script>
+</body>
+</html>

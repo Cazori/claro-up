@@ -4,8 +4,8 @@
     "siIva": 2.5942
   },
   "rangosSeguro": [
-    { "desde": 800000, "hasta": 1200000, "valor": 16000 },
-    { "desde": 1200000, "hasta": 1999999, "valor": 22000 },
-    { "desde": 2000000, "hasta": null, "valor": 38000 }
+    { "desde": 500000, "hasta": 1249999, "valor": 22000 },
+    { "desde": 1250000, "hasta": 1749999, "valor": 32000 },
+    { "desde": 1750000, "hasta": null, "valor": 38000 }
   ]
 }
